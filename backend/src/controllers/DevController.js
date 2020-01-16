@@ -46,7 +46,32 @@ module.exports = {
         return res.json(devs)
     },
     async update(req, res){
-        const devs = await Dev.find()
-        return res.json(devs)
+        const {github_username, techs, latitude, longitude}  = req.body
+
+        const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`)
+        
+        const { name = login, avatar_url, bio} = apiResponse.data
+    
+        const techsArray = parseArrayAsString(techs)
+    
+        const location = {
+            type: 'Point',
+            coordinates: [longitude,latitude]
+        }
+        //const dev = await Dev.findOne({github_username})
+        const updatedDataDev = {
+            name,
+            avatar_url,
+            bio,
+            techs: techsArray,
+            location
+        }
+        
+        const result = await Dev.updateOne({github_username},updatedDataDev)
+        if (result.nModified !== 1) {
+            return res.status(401).json({error: 'User not updated'})
+        }
+        const dev = await Dev.findOne({github_username})
+        return res.json({message: 'User`s data are been updated', dev})
     },
 }
