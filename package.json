@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "axios": "^0.19.1",
-    "mongoose": "^5.8.7"
-  }
-}
