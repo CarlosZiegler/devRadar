@@ -3,7 +3,7 @@ import {StyleSheet , Image, View, Text} from 'react-native'
 import MapView , { Marker, Callout}from 'react-native-maps'
 import { requestPermissionsAsync, getCurrentPositionAsync} from 'expo-location'
 
-function Main() {
+function Main({navigation}) {
 
     const [currentRegion, setCurrentRegion] = useState(null)
 
@@ -41,12 +41,22 @@ function Main() {
             latitude:52.6058684,
             longitude:13.4782204,
         }}>
-            <Image style={styles.avatar} source={{uri: "https://avatars2.githubusercontent.com/u/38855507?s=460&v=4"}}/>
-            <Callout>
-            <View style={styles.callout}>
-
-            </View>
-            </Callout>
+                <Image style={styles.avatar} source={{uri: "https://avatars2.githubusercontent.com/u/38855507?s=460&v=4"}}/>
+                <Callout onPress= {()=>{
+                    navigation.navigate('Profile', {github_username :'carlosziegler'})
+                }}>
+                    <View style={styles.callout}>
+                        <Text style={styles.devName}>
+                            Carlos Ziegler
+                        </Text>
+                        <Text style={styles.devBio}>
+                            Bio
+                        </Text>
+                        <Text style={styles.devTechs}>
+                            ReactJs, React Native
+                        </Text>
+                    </View>
+                </Callout>
         </Marker>
     </MapView>)
 
@@ -64,7 +74,18 @@ const styles =  StyleSheet.create({
         borderColor: 4
     },
     callout:{
-        flex: 1
+       width:260, 
+    },
+    devName:{
+        fontWeight: "bold",
+        fontSize:16
+    },
+    devBio:{
+       color:"#666",
+       marginTop: 5
+    },
+    devTechs:{
+        marginTop:5
     },
 
 })
