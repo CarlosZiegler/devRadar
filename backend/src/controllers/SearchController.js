@@ -6,8 +6,8 @@ module.exports = {
     async index(req,res){
 
         const {techs, latitude, longitude}  = req.query
-
-        const arrayTechs = parseArrayAsString(techs) 
+        const techUpperCase = techs.toUpperCase()
+        const arrayTechs = parseArrayAsString(techUpperCase) 
 
         const devs = await Dev.find({
             techs: {
@@ -25,10 +25,10 @@ module.exports = {
         })
         
         if(devs.length === 0){
-            console.log(devs)
+            
             return res.status(401).json({error: 'Not users near you'})
         }
-   
+        
         return res.json(devs)
     }
 }
